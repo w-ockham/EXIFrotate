@@ -20,10 +20,11 @@ file_paths = sys.argv[1:]
 for file_path in file_paths:
     img = Image.open(file_path)
     exif = img._getexif()
-    orientation = exif.get(0x112,1)
-    print('Roate ' + str(orientation)+' : ' + file_path)
-    rot_img = convert_image[orientation](img)
+    if exif:
+        orientation = exif.get(0x112,1)
+        print('Roate ' + str(orientation)+' : ' + file_path)
+        rot_img = convert_image[orientation](img)
 
-    dirname,fname = os.path.split(file_path)
-    os.makedirs(dirname + rotdir, exist_ok = True)
-    rot_img.save(dirname + rotdir + os.path.sep + fname, quality=95)
+        dirname,fname = os.path.split(file_path)
+        os.makedirs(dirname + rotdir, exist_ok = True)
+        rot_img.save(dirname + rotdir + os.path.sep + fname, quality=95)
